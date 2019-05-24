@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 using namespace std;
+int Mas[26];
 void Test(const char* out) {
 	int i, k = 0, e = 0;
 	bool y;
@@ -110,8 +111,8 @@ void Postfix(const char* i, char* o) {
 		case '+':
 		case '*':
 		case '/':
-			if (p != NULL)
-				while (Prior(c) < Prior(p->value)) {
+			if (p!=0)
+				while ((p!=NULL)&&(Prior(c) < Prior(p->value))) {
 					o[l] = Pop(p);
 					l++;
 				}
@@ -123,7 +124,7 @@ void Postfix(const char* i, char* o) {
 				break;
 			}
 			else {
-				if (p != NULL)
+				if (p!= nullptr)
 					while (Prior(c) < Prior(p->value)) {
 						o[l] = Pop(p);
 						l++;
@@ -179,19 +180,22 @@ int Per(char c) {
 		Pushi(pi, 0);
 		break;
 	default:
-		printf_s("%c\t", c);
-		int a;
-		scanf_s("%d", &a);
-		Pushi(pi, a);
+		if (Mas[int(c) - 97]==0) {
+			printf_s("%c\t", c);
+			int a = 0;
+			scanf_s("%d", &a);
+			Mas[int(c) - 97] = a;
+		}
+			Pushi(pi, Mas[int(c)-97]);
 		break;
 	}
 	return 0;
 }
 int main() {
 	int i = 0, st = 0;;
-	char in[20];
-	char out[20] = "";
-	gets_s(in, 20);
+	char in[30];
+	char out[30] = "";
+	gets_s(in, 30);
 	Test(in);
 	Postfix(in, out);
 	cout << out << endl;
